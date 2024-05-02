@@ -223,3 +223,37 @@ class FrankaLeap(ManipulationRobot):
     @property
     def teleop_rotation_offset(self):
         return {self.default_arm: T.euler2quat(np.array([0, np.pi, np.pi / 2]))}
+
+    def _handle_assisted_grasping(self):
+        """
+        Handles assisted grasping by creating or removing constraints.
+        Note that we need to overwrite this because the rotation of finger along its length does not contribute to the grasping behavior.
+        """
+        # Loop over all arms
+        for arm in self.arm_names:
+            # We apply a threshold based on the control rather than the command here so that the behavior
+            # stays the same across different controllers and control modes (absolute / delta). This way,
+            # a zero action will actually keep the AG setting where it already is.
+            controller = self._controllers[f"gripper_{arm}"]
+            controlled_joints = controller.dof_idx
+            threshold = np.mean(
+                [self.joint_lower_limits[controlled_joints], self.joint_upper_limits[controlled_joints]], axis=0
+            )
+            if controller.control is None:
+                applying_grasp = False
+            elif self._grasping_direction == "lower":
+                applying_grasp = np.any(np.delete(controller.control < threshold, [5, 9, 13]))
+            else:
+                applying_grasp = np.any(np.delete(controller.control > threshold, [5, 9, 13]))
+            # Execute gradual release of object
+            if self._ag_obj_in_hand[arm]:
+                if self._ag_release_counter[arm] is not None:
+                    self._handle_release_window(arm=arm)
+                else:
+                    if gm.AG_CLOTH:
+                        self._update_constraint_cloth(arm=arm)
+
+                    if not applying_grasp:
+                        self._release_grasp(arm=arm)
+            elif applying_grasp:
+                self._establish_grasp(arm=arm, ag_data=self._calculate_in_hand_object(arm=arm))
