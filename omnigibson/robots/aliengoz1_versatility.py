@@ -7,6 +7,19 @@ from omnigibson.robots.locomotion_robot import LocomotionRobot
 from omnigibson.utils.transform_utils import euler2quat
 
 
+from omnigibson.macros import gm, create_module_macros
+
+m = create_module_macros(module_path=__file__)
+
+# joint parameters
+m.BASE_JOINT_STIFFNESS = 1e4
+m.BASE_JOINT_DAMPING = 1e5
+m.BASE_JOINT_MAX_EFFORT = 1e5
+m.ARM_JOINT_STIFFNESS = 1e4
+m.ARM_JOINT_MAX_EFFORT = 1e5
+m.FINGER_JOINT_STIFFNESS = 1e3
+m.FINGER_JOINT_MAX_EFFORT = 50
+
 class AliengoZ1Versatility(ManipulationRobot, LocomotionRobot):
     """
     The Aliengo robot equipped with Z1 Arm
@@ -134,6 +147,41 @@ class AliengoZ1Versatility(ManipulationRobot, LocomotionRobot):
         super().update_controller_mode()
         # overwrite joint params (e.g. damping, stiffess, max_effort) here
 
+
+        # # set base joint properties
+        # for joint_name in self.base_joint_names:
+        #     self.joints[joint_name].stiffness = m.BASE_JOINT_STIFFNESS
+        #     self.joints[joint_name].max_effort = m.BASE_JOINT_MAX_EFFORT
+
+        # # set arm joint properties
+        # for arm in self.arm_joint_names:
+        #     for joint_name in self.arm_joint_names[arm]:
+        #         self.joints[joint_name].stiffness = m.ARM_JOINT_STIFFNESS
+        #         self.joints[joint_name].max_effort = m.ARM_JOINT_MAX_EFFORT
+
+        # # set finger joint properties
+        # for arm in self.finger_joint_names:
+        #     for joint_name in self.finger_joint_names[arm]:
+        #         self.joints[joint_name].stiffness = m.FINGER_JOINT_STIFFNESS
+        #         self.joints[joint_name].max_effort = m.FINGER_JOINT_MAX_EFFORT
+
+    # @property
+    # def _default_base_qp_controller_config(self):
+    #     """
+    #     Returns:
+    #         dict: Default base joint controller config to control this robot's base. Uses velocity
+    #             control by default.
+    #     """
+    #     return {
+    #         "name": "QuadraticProgrammingController",
+    #         "control_freq": self._control_freq,
+    #         "motor_type": "velocity",
+    #         "control_limits": self.control_limits,
+    #         "dof_idx": self.base_control_idx,
+    #         "command_output_limits": "default",
+    #         "use_delta_commands": False,
+    #     }
+
     @property
     def controller_order(self):
         # Ordered by general robot kinematics chain
@@ -188,7 +236,7 @@ class AliengoZ1Versatility(ManipulationRobot, LocomotionRobot):
         return {self.default_arm: 0.1}
 
     @property
-    def base_action_names(self):
+    def base_joint_names(self):
         return ['FL_hip_joint', 'FL_thigh_joint', 'FL_calf_joint', 
                 'FR_hip_joint', 'FR_thigh_joint', 'FR_calf_joint', 
                 'RL_hip_joint', 'RL_thigh_joint', 'RL_calf_joint', 
@@ -201,13 +249,20 @@ class AliengoZ1Versatility(ManipulationRobot, LocomotionRobot):
         return np.array(
             [
                 joints.index(component)
-                for component in self.base_action_names
+                for component in self.base_joint_names
             ]
         )
 
     @property
     def arm_control_idx(self):
-        return {self.default_arm: np.array([8, 13, 14, 15, 16, 17])}
+        # return {self.default_arm: np.array([8, 13, 14, 15, 16, 17])}
+        joints = list(self.joints.keys())
+        return {self.default_arm: np.array(
+            [
+                joints.index(component)
+                for component in self.arm_joint_names[self.default_arm]
+            ]
+        )}
 
     @property
     def gripper_control_idx(self):
@@ -219,7 +274,7 @@ class AliengoZ1Versatility(ManipulationRobot, LocomotionRobot):
 
     @property
     def arm_joint_names(self):
-        return {self.default_arm: [f"joint_{i+1}" for i in range(6)]}
+        return {self.default_arm: [f"joint{i+1}" for i in range(6)]}
 
     @property
     def eef_link_names(self):
@@ -239,7 +294,7 @@ class AliengoZ1Versatility(ManipulationRobot, LocomotionRobot):
     
     @property
     def robot_arm_descriptor_yamls(self):
-        return {self.default_arm: os.path.join(gm.ASSET_PATH, "models/aliengo-z1/z1_description.yaml")}
+        return {self.default_arm: os.path.join(gm.ASSET_PATH, "models/aliengo-z1/z11_description.yaml")}
     
     @property
     def urdf_path(self):

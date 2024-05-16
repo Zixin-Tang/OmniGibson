@@ -88,8 +88,13 @@ def main(random_selection=False, headless=False, short_exec=False):
     robot0_cfg["position"] = [0, 0, 0.5]
     robot0_cfg["orientation"] = [0, 0, 0, 1]
 
+    env_cfg = dict()
+    env_cfg["action_frequency"] = 400
+    env_cfg["physics_frequency"] = 400
+
+
     # Compile config
-    cfg = dict(scene=scene_cfg, robots=[robot0_cfg])
+    cfg = dict(env=env_cfg, scene=scene_cfg, robots=[robot0_cfg])
 
     # Create the environment
     env = og.Environment(configs=cfg)
@@ -97,12 +102,12 @@ def main(random_selection=False, headless=False, short_exec=False):
     # Choose robot controller to use
     robot = env.robots[0]
     # controller_choices = choose_controllers(robot=robot, random_selection=random_selection)
-
+    control_mode = "teleop"
     # Choose control mode
-    if random_selection:
-        control_mode = "random"
-    else:
-        control_mode = choose_from_options(options=CONTROL_MODES, name="control mode")
+    # if random_selection:
+    #     control_mode = "random"
+    # else:
+    #     control_mode = choose_from_options(options=CONTROL_MODES, name="control mode")
 
     # Update the control mode of the robot
     # controller_config = {component: {"name": name} for component, name in controller_choices.items()}
