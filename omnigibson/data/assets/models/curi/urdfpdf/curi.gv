@@ -1,0 +1,119 @@
+digraph G {
+node [shape=box];
+"world" [label="world"];
+"summit_xls_base_footprint" [label="summit_xls_base_footprint"];
+"summit_xls_base_link" [label="summit_xls_base_link"];
+"summit_xls_back_left_wheel_link" [label="summit_xls_back_left_wheel_link"];
+"summit_xls_back_right_wheel_link" [label="summit_xls_back_right_wheel_link"];
+"summit_xls_front_left_wheel_link" [label="summit_xls_front_left_wheel_link"];
+"summit_xls_front_right_wheel_link" [label="summit_xls_front_right_wheel_link"];
+"control_box" [label="control_box"];
+"torso_base1" [label="torso_base1"];
+"torso_base2" [label="torso_base2"];
+"torso_link_b2" [label="torso_link_b2"];
+"torso_link_c1" [label="torso_link_c1"];
+"torso_end" [label="torso_end"];
+"head_base" [label="head_base"];
+"head_link1" [label="head_link1"];
+"head_link2" [label="head_link2"];
+"panda_left_link0" [label="panda_left_link0"];
+"panda_left_link1" [label="panda_left_link1"];
+"panda_left_link2" [label="panda_left_link2"];
+"panda_left_link3" [label="panda_left_link3"];
+"panda_left_link4" [label="panda_left_link4"];
+"panda_left_link5" [label="panda_left_link5"];
+"panda_left_link6" [label="panda_left_link6"];
+"panda_left_link7" [label="panda_left_link7"];
+"panda_left_hand" [label="panda_left_hand"];
+"panda_left_leftfinger" [label="panda_left_leftfinger"];
+"panda_left_rightfinger" [label="panda_left_rightfinger"];
+"panda_right_link0" [label="panda_right_link0"];
+"panda_right_link1" [label="panda_right_link1"];
+"panda_right_link2" [label="panda_right_link2"];
+"panda_right_link3" [label="panda_right_link3"];
+"panda_right_link4" [label="panda_right_link4"];
+"panda_right_link5" [label="panda_right_link5"];
+"panda_right_link6" [label="panda_right_link6"];
+"panda_right_link7" [label="panda_right_link7"];
+"panda_right_hand" [label="panda_right_hand"];
+"panda_right_leftfinger" [label="panda_right_leftfinger"];
+"panda_right_rightfinger" [label="panda_right_rightfinger"];
+"torso_shell" [label="torso_shell"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"world" -> "reference" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"reference" -> "summit_xls_base_footprint"
+"summit_xls_base_footprint" -> "summit_xls_base_footprint_joint" [label="xyz: 0 0 0.127 \nrpy: 0 -0 0"]
+"summit_xls_base_footprint_joint" -> "summit_xls_base_link"
+"summit_xls_base_link" -> "summit_xls_back_left_wheel_joint" [label="xyz: -0.2225 0.2045 0 \nrpy: 0 -0 0"]
+"summit_xls_back_left_wheel_joint" -> "summit_xls_back_left_wheel_link"
+"summit_xls_base_link" -> "summit_xls_back_right_wheel_joint" [label="xyz: -0.2225 -0.2045 0 \nrpy: 0 -0 0"]
+"summit_xls_back_right_wheel_joint" -> "summit_xls_back_right_wheel_link"
+"summit_xls_base_link" -> "summit_xls_front_left_wheel_joint" [label="xyz: 0.2225 0.2045 0 \nrpy: 0 -0 0"]
+"summit_xls_front_left_wheel_joint" -> "summit_xls_front_left_wheel_link"
+"summit_xls_base_link" -> "summit_xls_front_right_wheel_joint" [label="xyz: 0.2225 -0.2045 0 \nrpy: 0 -0 0"]
+"summit_xls_front_right_wheel_joint" -> "summit_xls_front_right_wheel_link"
+"summit_xls_base_footprint" -> "torso_joint_summit_xls_base_footprint" [label="xyz: 0 0 0.52262 \nrpy: 0 -0 0"]
+"torso_joint_summit_xls_base_footprint" -> "control_box"
+"control_box" -> "torso_joint1" [label="xyz: 0.2375 0 0.015 \nrpy: 0 -0 0"]
+"torso_joint1" -> "torso_base1"
+"torso_base1" -> "torso_actuated_joint1" [label="xyz: 0 0 0.215 \nrpy: 0 -0 0"]
+"torso_actuated_joint1" -> "torso_base2"
+"torso_base2" -> "torso_actuated_joint2" [label="xyz: 0 0 0 \nrpy: 0 -1 0"]
+"torso_actuated_joint2" -> "torso_link_b2"
+"torso_link_b2" -> "torso_actuated_joint3" [label="xyz: 0 0 0.25 \nrpy: 0 0.8 0"]
+"torso_actuated_joint3" -> "torso_link_c1"
+"torso_link_c1" -> "torso_joint8" [label="xyz: 0.25 0 0 \nrpy: 0 0.2 0"]
+"torso_joint8" -> "torso_end"
+"torso_end" -> "head_joint_torso_end" [label="xyz: 0.02 0 0.3929 \nrpy: 0 -0 0"]
+"head_joint_torso_end" -> "head_base"
+"head_base" -> "head_actuated_joint1" [label="xyz: 0 0 0.045 \nrpy: 0 -0 0"]
+"head_actuated_joint1" -> "head_link1"
+"head_link1" -> "head_actuated_joint2" [label="xyz: 0 0 0.043 \nrpy: 0 -0 0"]
+"head_actuated_joint2" -> "head_link2"
+"torso_end" -> "panda_left_joint_torso_end" [label="xyz: -0.08537 0.07009 0.2535 \nrpy: -1.36852 0.913218 -0.616834"]
+"panda_left_joint_torso_end" -> "panda_left_link0"
+"panda_left_link0" -> "panda_left_joint1" [label="xyz: 0 0 0.333 \nrpy: 0 -0 0"]
+"panda_left_joint1" -> "panda_left_link1"
+"panda_left_link1" -> "panda_left_joint2" [label="xyz: 0 0 0 \nrpy: -1.5708 0 0"]
+"panda_left_joint2" -> "panda_left_link2"
+"panda_left_link2" -> "panda_left_joint3" [label="xyz: 0 -0.316 0 \nrpy: 1.5708 -0 0"]
+"panda_left_joint3" -> "panda_left_link3"
+"panda_left_link3" -> "panda_left_joint4" [label="xyz: 0.0825 0 0 \nrpy: 1.5708 -0 0"]
+"panda_left_joint4" -> "panda_left_link4"
+"panda_left_link4" -> "panda_left_joint5" [label="xyz: -0.0825 0.384 0 \nrpy: -1.5708 0 0"]
+"panda_left_joint5" -> "panda_left_link5"
+"panda_left_link5" -> "panda_left_joint6" [label="xyz: 0 0 0 \nrpy: 1.5708 -0 0"]
+"panda_left_joint6" -> "panda_left_link6"
+"panda_left_link6" -> "panda_left_joint7" [label="xyz: 0.088 0 0 \nrpy: 1.5708 -0 0"]
+"panda_left_joint7" -> "panda_left_link7"
+"panda_left_link7" -> "panda_left_hand_joint" [label="xyz: 0 0 0.107 \nrpy: 0 0 -0.785398"]
+"panda_left_hand_joint" -> "panda_left_hand"
+"panda_left_hand" -> "panda_left_finger_joint1" [label="xyz: 0 0 0.0584 \nrpy: 0 -0 0"]
+"panda_left_finger_joint1" -> "panda_left_leftfinger"
+"panda_left_hand" -> "panda_left_finger_joint2" [label="xyz: 0 0 0.0584 \nrpy: 0 -0 0"]
+"panda_left_finger_joint2" -> "panda_left_rightfinger"
+"torso_end" -> "panda_right_joint_torso_end" [label="xyz: -0.08537 -0.07009 0.2535 \nrpy: 1.36852 0.913218 0.616834"]
+"panda_right_joint_torso_end" -> "panda_right_link0"
+"panda_right_link0" -> "panda_right_joint1" [label="xyz: 0 0 0.333 \nrpy: 0 -0 0"]
+"panda_right_joint1" -> "panda_right_link1"
+"panda_right_link1" -> "panda_right_joint2" [label="xyz: 0 0 0 \nrpy: -1.5708 0 0"]
+"panda_right_joint2" -> "panda_right_link2"
+"panda_right_link2" -> "panda_right_joint3" [label="xyz: 0 -0.316 0 \nrpy: 1.5708 -0 0"]
+"panda_right_joint3" -> "panda_right_link3"
+"panda_right_link3" -> "panda_right_joint4" [label="xyz: 0.0825 0 0 \nrpy: 1.5708 -0 0"]
+"panda_right_joint4" -> "panda_right_link4"
+"panda_right_link4" -> "panda_right_joint5" [label="xyz: -0.0825 0.384 0 \nrpy: -1.5708 0 0"]
+"panda_right_joint5" -> "panda_right_link5"
+"panda_right_link5" -> "panda_right_joint6" [label="xyz: 0 0 0 \nrpy: 1.5708 -0 0"]
+"panda_right_joint6" -> "panda_right_link6"
+"panda_right_link6" -> "panda_right_joint7" [label="xyz: 0.088 0 0 \nrpy: 1.5708 -0 0"]
+"panda_right_joint7" -> "panda_right_link7"
+"panda_right_link7" -> "panda_right_hand_joint" [label="xyz: 0 0 0.107 \nrpy: 0 0 -0.785398"]
+"panda_right_hand_joint" -> "panda_right_hand"
+"panda_right_hand" -> "panda_right_finger_joint1" [label="xyz: 0 0 0.0584 \nrpy: 0 -0 0"]
+"panda_right_finger_joint1" -> "panda_right_leftfinger"
+"panda_right_hand" -> "panda_right_finger_joint2" [label="xyz: 0 0 0.0584 \nrpy: 0 -0 0"]
+"panda_right_finger_joint2" -> "panda_right_rightfinger"
+"torso_end" -> "torso_joint_shell" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"torso_joint_shell" -> "torso_shell"
+}

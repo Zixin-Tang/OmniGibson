@@ -1,0 +1,66 @@
+# Copyright (c) 2019-2021, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+# The robot descriptor defines the generalized coordinates and how to map those
+# to the underlying URDF dofs.
+
+api_version: 1.0
+
+# Defines the generalized coordinates. Each generalized coordinate is assumed
+# to have an entry in the URDF, except when otherwise specified below under
+# cspace_urdf_bridge
+cspace:
+    - torso_actuated_joint1
+    - panda_right_joint1
+    - panda_right_joint2
+    - panda_right_joint3
+    - panda_right_joint4
+    - panda_right_joint5
+    - panda_right_joint6
+    - panda_right_joint7
+
+default_q: [
+    0.0, -1.0073911760397125, 0.8474641609359035, 1.5402616204020578, -0.6941912798610799, -1.8713471498933747, 2.1457223440806072, 2.180731299913705
+]
+
+root_link: base_link
+subtree_root_link: base_link
+
+# Most dimensions of the cspace have a direct corresponding element
+# in the URDF. This list of rules defines how unspecified coordinates
+# should be extracted.
+cspace_to_urdf_rules:
+
+composite_task_spaces: []
+
+# Just using dummy spheres for now for debugging
+collision_spheres:
+    - torso_actuated_joint1:
+        - "center": [0.0, 0.0, 0.0]
+          "radius": 0.001
+    - panda_right_joint1:
+        - "center": [ 0.0, 0.0, 0.0 ]
+          "radius": 0.001
+    - panda_right_joint2:
+        - "center": [ 0.0, 0.0, 0.0 ]
+          "radius": 0.001
+    - panda_right_joint3:
+        - "center": [ 0.0, 0.0, 0.0 ]
+          "radius": 0.001
+    - panda_right_joint4:
+        - "center": [ 0.0, 0.0, 0.0 ]
+          "radius": 0.001
+    - panda_right_joint5:
+        - "center": [ 0.0, 0.0, 0.0 ]
+          "radius": 0.001
+    - panda_right_joint6:
+        - "center": [ 0.0, 0.0, 0.0 ]
+          "radius": 0.001
+    - panda_right_joint7:
+        - "center": [ 0.0, 0.0, 0.0 ]
+          "radius": 0.001
