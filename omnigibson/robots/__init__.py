@@ -17,3 +17,4 @@ from omnigibson.robots.behavior_robot import BehaviorRobot
 from omnigibson.robots.franka_versatility import FrankaVersatility
 from omnigibson.robots.aliengoz1_versatility import AliengoZ1Versatility
 from omnigibson.robots.crazyflie_versatility import CrazyflieVersatility
+from omnigibson.robots.curi_versatility import CURIVersatility

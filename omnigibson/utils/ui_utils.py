@@ -713,7 +713,7 @@ class KeyboardRobotController:
                     cmd_idx = info["start_idx"] + i
                     self.joint_command_idx.append(cmd_idx)
                 self.joint_control_idx += info["dofs"].tolist()
-            elif info["name"] == "DifferentialDriveController":
+            elif info["name"] == "DifferentialDriveController" or info["name"] == "DifferentialDrive4WheelController":
                 self.keypress_mapping[lazy.carb.input.KeyboardInput.I] = {"idx": info["start_idx"] + 0, "val": 0.4}
                 self.keypress_mapping[lazy.carb.input.KeyboardInput.K] = {"idx": info["start_idx"] + 0, "val": -0.4}
                 self.keypress_mapping[lazy.carb.input.KeyboardInput.L] = {"idx": info["start_idx"] + 1, "val": -0.2}
@@ -860,10 +860,10 @@ class KeyboardRobotController:
                 action[self.controller_info[binary_gripper]["start_idx"]] = self.persistent_gripper_action[binary_gripper]
 
         # Print out the user what is being pressed / controlled
-        sys.stdout.write("\033[K")
+        # sys.stdout.write("\033[K")
         keypress_str = self.current_keypress.__str__().split(".")[-1]
-        print("Pressed {}. Action: {}".format(keypress_str, action))
-        sys.stdout.write("\033[F")
+        # print("Pressed {}. Action: {}".format(keypress_str, action))
+        # sys.stdout.write("\033[F")
 
         # Return action
         return action

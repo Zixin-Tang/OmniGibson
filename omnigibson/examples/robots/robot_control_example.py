@@ -79,18 +79,20 @@ def main(random_selection=False, headless=False, short_exec=False):
         scene_cfg["type"] = "InteractiveTraversableScene"
         scene_cfg["scene_model"] = scene_model
 
+    # scene_cfg["use_floor_plane"] = False
+
     # Add the robot we want to load
     robot0_cfg = dict()
     robot0_cfg["type"] = robot_name
     robot0_cfg["obs_modalities"] = ["rgb", "depth", "seg_instance", "normal", "scan", "occupancy_grid"]
     robot0_cfg["action_type"] = "continuous"
     robot0_cfg["action_normalize"] = True
-    robot0_cfg["position"] = [0, 0, 0.5]
+    robot0_cfg["position"] = [0, 0, 0.0 ]
     robot0_cfg["orientation"] = [0, 0, 0, 1]
 
     env_cfg = dict()
-    env_cfg["action_frequency"] = 400
-    env_cfg["physics_frequency"] = 400
+    # env_cfg["action_frequency"] = 400
+    # env_cfg["physics_frequency"] = 400
 
 
     # Compile config
@@ -113,11 +115,11 @@ def main(random_selection=False, headless=False, short_exec=False):
     # controller_config = {component: {"name": name} for component, name in controller_choices.items()}
     # robot.reload_controllers(controller_config=controller_config)
 
+    # Update the simulator's viewer camera's pose so it points towards the robot
     # Because the controllers have been updated, we need to update the initial state so the correct controller state
     # is preserved
     env.scene.update_initial_state()
 
-    # Update the simulator's viewer camera's pose so it points towards the robot
     og.sim.viewer_camera.set_position_orientation(
         position=np.array([1.46949, -3.97358, 2.21529]),
         orientation=np.array([0.56829048, 0.09569975, 0.13571846, 0.80589577]),
@@ -126,11 +128,21 @@ def main(random_selection=False, headless=False, short_exec=False):
     print(robot.get_joint_positions())
     # Reset environment and robot
     env.reset()
-    robot.reset()
+    # for i in range(30000):
+    #     robot.reset()
+    #     og.sim.step()
 
-    print(robot.get_joint_positions())
-    for i in range(200):
-        og.app.update()
+    # print(robot.get_joint_positions())
+    # for i in range(200):
+    #     og.sim.step()
+    #     print(robot.get_joint_positions()[robot.torso_control_idx])
+
+    # for i in range(200):
+    #     robot.set_joint_positions(robot._default_joint_pos)
+    #     print("torso: ", robot.get_joint_positions()[robot.torso_control_idx])
+    #     og.sim.step()
+    # import sys
+    # sys.exit()
     # Create teleop controller
     action_generator = KeyboardRobotController(robot=robot)
 
